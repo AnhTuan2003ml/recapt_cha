@@ -4,7 +4,7 @@ import os
 import time
 import threading
 from typing import Optional, Dict, Any, List, Union
-
+from recaptcha_browser import get_captcha_token
 # Recaptcha logic removed completely
 
 # ============================================================================
@@ -589,7 +589,7 @@ def create_batch_text_to_image(
                         from .creat_token_recaptch import get_token
                     except ImportError:
                         from creat_token_recaptch import get_token
-                    chunk_recaptcha_token = "0cAFcWeA7ywMlvOGmc9z5xKqTmyqnTJlBhJoV3lntFJDMy4F9YGWXy8egXIu47C3URPLsA_y2ytSA3OwXOBLZK_58ljKUt_nrGEZIDV5Kx6cxTXLnrP8eImkxJAMfgCe_vvMJ8YPXt39T40pITiMwDdM8ysz7Gj9Pq075Lkt8MKmhWS0wLlpNLEIRUUjDcf_oHJwt2yKS12WPZkG1H_8pHVk254EZ0ITazbQoVo2RyT_TseO1bfE_tqolg3UekHqCWaEt90QXwZadjc2X_qaJ7aR387grwHUK9UgOS_bvqKy2aHUaLfObLoYHeToc5xcVeFB6NkWb0URvo2DbynY_qbiQTwv-SYMiL4Lz8Z-iFsqu18jNEbkjxQFvyBwmfCibooBI0dymQba-K9vwNAW2H_fxZ4MJKZyDhu8uwSKDbowD6j8Ngh0ify_Akm27xJU5wS1wGJB9n0veyuR6KjgLo9XSqK1tqE2xW_Oj9LStZHAnkandhuVikP-fY8HemoZ7GLrkNhI_7Z1E9ZlGupGiQ-TWMe2sDmCg5XHBzEARSmTNqUTkGp7sOoYRJyeaWs6XnY5upwWZb_ZIKuEGFWFbQ9sxEdRdz3TbbTdmj_6pYbVcWBHgspyMBaT5CLXKrpcyV642l0c0vMUoJjIO8SJpkXSOanDI_GsoHcbZvJ8vavH4_NLyVa3_w8vLK5O32YAEeBz_APU9aqjt_VwClAStgOx9jGn0pQtiaszOug3r_1IITg-AInDBoLdZR3mMrjM9C3FaGNvqdoghViSTzGcpuWoq676cIXN6EzcCO_GFZeXWKiOQPb9YMGm6zbxpwqY8IyAfzLpMgf4KRZANfStwqXJ_Q_8OI8e7Z0ZCEMSw26v_4fRiNe2EkFzHCzI2rHtW6bwU7f9xJAba0LygnNXHjDL00aTAEtMGtUa2L7NOjQtsguDfhAcE5FhVWuY1mO-38t375WC2ddyLeCHRMkDn5p1gQEoCGu7Dk3_lk1JCfXFHMvW6wwGRp_-byIwV1R3kE5TojSchLpuK6Jn01iJgwC749AzUdw8ZBG61sK3pA_AxSuJoVnRHLdu5wAgPVF2h-RiiAq8bc1Itwnb282U16HlrvoV50GakQtRmIW2gLiHzwd4Lqkz2DgfYSUxuyqGAfm62sNfnRRNfHGpQDBks5MlrGx_474BH8-0gAi1bSUfTgqpL8y_yKy1YEdGBW0LcWXA4XpjHf3schKo7DkOaTZ53yLSi1IGTDYBTCJ93hkn3JPqLTGLVTpzAlkPA2BwzdEliRvDlIyz0zNpNxmDix-kR_lzLmn3bWUCj84_EnNuvV0rgtMlvI1wWQgMoRqvvXqTHTKbKAChhH-Ghm7gbd1DpupCIa3DmnPig3xpB60f2rkYzkLFXI-pfGpvBRS10JegZkbkQM_q2hB1jPR6IjsFv3_jyRsSndKB2xCtspbIDm2W6Rt1XJM99Y7SinCo0aK31LdcIMNIRseaGEaJ1vwSf2nUrPANqq8tOU4CX4VmMzUcRiO6WvO8cD0JMLMMJJsE2J5e5b0KzyyoAGKTKFy2r7mOt8ddKQyuEZe2Pv7Y3fYUDPn79T7OW5wNcORA1XmpVqXPX_KEfRvWIfReqPBmYyRoauGyaa9RV2Vd927LIdZrd18MElyjBk4S_p3sq3fJ2ReJ9qZkdv"
+                    chunk_recaptcha_token = get_captcha_token()
                     if chunk_recaptcha_token:
                         print(f"   ✓ Token mới: {chunk_recaptcha_token[:20]}...")
                     else:
@@ -991,7 +991,34 @@ def create_text_to_image(
         return None
 
 
-
+def download_video_robust(url, save_path, max_retries=3, timeout=30):
+    """
+    Hàm tải file "trâu bò": Tự thử lại nếu mạng lag, tải từng phần (stream).
+    """
+    for attempt in range(max_retries):
+        try:
+            print(f"   ⬇️ Đang tải (Lần thử {attempt + 1})...")
+            # stream=True để tải file lớn không bị tràn RAM
+            response = requests.get(url, stream=True, timeout=timeout)
+            
+            if response.status_code == 200:
+                with open(save_path, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=1024 * 1024): 
+                        if chunk: f.write(chunk)
+                print(f"   ✅ Tải xong: {os.path.basename(save_path)}")
+                return True
+            else:
+                print(f"   ⚠️ Lỗi HTTP: {response.status_code}")
+                
+        except Exception as e:
+            print(f"   ⚠️ Lỗi tải: {e}")
+        
+        # Nếu chưa phải lần cuối thì đợi 5s rồi thử lại
+        if attempt < max_retries - 1: 
+            time.sleep(5)
+            
+    print("   ❌ Tải thất bại sau 3 lần thử.")
+    return False
 
 if __name__ == "__main__":
     """
