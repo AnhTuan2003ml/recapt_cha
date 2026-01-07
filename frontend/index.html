@@ -1,0 +1,91 @@
+cd "D:\Micro AI\recapt_cha"
+git pull origin main<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NanoAI - Hệ sinh thái AI tiên tiến</title>
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/pricing.css">
+    <link rel="stylesheet" href="css/apiflow.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                NanoAI<span class="highlight">.</span>
+            </div>
+
+            <nav class="navbar">
+                <a href="#" class="nav-link active" id="btn-home">Trang chủ</a>
+                <a href="#" class="nav-link" id="btn-apiflow">API FLOW</a>
+                <a href="#" class="nav-link" id="btn-pricing">Gói cước</a>
+                <a href="#" class="nav-link" id="btn-docs">Tài liệu</a>
+            </nav>
+
+            <div class="header-actions">
+                <button class="lang-switch">VI ▾</button>
+                <button class="btn-login">Đăng nhập</button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+
+        <section id="view-home" class="view-section">
+            <div class="hero-bg">
+                <div class="container hero-content">
+                    <h1>Chào mừng đến với NanoAI.pics</h1>
+                    <p class="hero-desc">
+                        Hệ sinh thái AI tiên tiến cung cấp các giải pháp tự động hóa thông minh với 
+                        Captcha Solver, Video Generation và Image Generation APIs
+                    </p>
+
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <h3>99.9%</h3>
+                            <p>Tỷ lệ thành công</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>24/7</h3>
+                            <p>Hỗ trợ liên tục</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>10K+</h3>
+                            <p>Người dùng tin dùng</p>
+                        </div>
+                    </div>
+
+                    <div class="hero-buttons">
+                        <button class="btn-primary" id="btn-hero-explore">Khám phá API</button>
+                        <button class="btn-secondary">Xem tài liệu</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container services-preview">
+                <h2>Dịch vụ của chúng tôi</h2>
+                <p>Các giải pháp AI tiên tiến giúp tự động hóa quy trình làm việc của bạn</p>
+            </div>
+        </section>
+
+
+        <section id="view-apiflow" class="view-section hidden">
+            <!-- Content will be loaded from components/apiflow.html -->
+            <div id="apiflow-content" class="content-container"></div>
+        </section>
+
+
+        <section id="view-pricing" class="view-section hidden">
+            <!-- Content will be loaded from components/pricing.html -->
+            <div id="pricing-content" class="content-container"></div>
+        </section>
+
+    </main>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

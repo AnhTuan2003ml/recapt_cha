@@ -1,0 +1,78 @@
+<section id="view-apiflow" class="view-section hidden">
+    <div class="container">
+        
+        <div class="api-header-center">
+            <h2>API <span class="text-yellow">Console</span></h2>
+            <p>Tài liệu tích hợp và công cụ kiểm thử trực tiếp cho Developer.</p>
+        </div>
+
+        <div class="api-config-area">
+            <div class="config-box">
+                <span class="label-tag">BASE URL</span>
+                <span class="config-value url-text">https://flow-api.nanoai.pics/api/fix</span>
+            </div>
+
+            <div class="config-box">
+                <span class="label-tag">YOUR TOKEN</span>
+                <div class="token-display">
+                    <span class="lock-icon">🔒</span>
+                    <span class="config-value">eyJhbGciOiJIUzI1NiIs...</span>
+                    <span class="status-dot online"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="endpoint-list">
+            
+            <div class="endpoint-item">
+                <div class="endpoint-head">
+                    <div class="method-badge get">GET</div>
+                    <div class="endpoint-path">/get-token</div>
+                    <div class="endpoint-desc">Lấy thông tin Token mới & Key</div>
+                    <div class="endpoint-arrow">▼</div>
+                </div>
+                <div class="endpoint-body hidden">
+                    <div class="code-block">
+                        <pre>{
+  "status": "success",
+  "token": "example_token_123",
+  "expires_in": 3600
+}</pre>
+                    </div>
+                    <button class="btn-try">Try it out</button>
+                </div>
+            </div>
+
+            <div class="endpoint-item">
+                <div class="endpoint-head">
+                    <div class="method-badge get">GET</div>
+                    <div class="endpoint-path">/balance</div>
+                    <div class="endpoint-desc">Kiểm tra số dư tài khoản</div>
+                    <div class="endpoint-arrow">▼</div>
+                </div>
+                <div class="endpoint-body hidden">
+                    <div class="code-block">
+                        <pre>{ "balance": 50000, "currency": "VND" }</pre>
+                    </div>
+                     <button class="btn-try">Try it out</button>
+                </div>
+            </div>
+
+            <div class="endpoint-item">
+                <div class="endpoint-head">
+                    <div class="method-badge get">GET</div>
+                    <div class="endpoint-path">/token-aval</div>
+                    <div class="endpoint-desc">Kiểm tra số lượng Token khả dụng</div>
+                    <div class="endpoint-arrow">▼</div>
+                </div>
+                <div class="endpoint-body hidden">
+                    <div class="code-block">
+                        <pre>{ "available": 100, "used": 5 }</pre>
+                    </div>
+                     <button class="btn-try">Try it out</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
